@@ -2,7 +2,7 @@
 url_list = [
     {
         'url': 'https://f001.backblazeb2.com/file/Backblaze-Hard-Drive-Data/data_Q1_2019.zip', 
-        'folder': 'Q1_2019'
+        'folder': 'data/raw_data/Q1_2019'
         },
     # Add more URLs and folders as needed
 ]
