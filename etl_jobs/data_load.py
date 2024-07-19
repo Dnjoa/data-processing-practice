@@ -2,7 +2,7 @@ import requests
 import zipfile
 import pandas as pd
 import os
-from url_config import get_url_list
+from etl_jobs.config.url_config import get_url_list
 
 def download_and_extract_data(folder_prefix):
     url_list = get_url_list(folder_prefix)
