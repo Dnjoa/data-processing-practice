@@ -21,6 +21,15 @@ def preprocess_data(input_directory, output_directory):
         .when(col("model").startswith("TOSHIBA"), "Toshiba")
         .when(col("model").startswith("WDC"), "Western Digital")
         .otherwise("Others")
+    ).withColumn(
+        "failure",
+        when(col("failure") == "1", "Yes")
+        .when(col("failure") == "0", "No")
+        .otherwise("Unknown")
+    ).withColumn(
+        "date",
+        # chaneg the date format to 'yyyy-MM-dd', the original format is like '2019/1/1'
+        when(col("date").contains("/"), date_format(col("date"), "yyyy-MM-dd"))
     )
     
     # Save the processed DataFrame to a new CSV file in the output directory
