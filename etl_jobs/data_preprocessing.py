@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import when, col
+from pyspark.sql.functions import when, col, date_format
 
 def preprocess_data(input_directory, output_directory):
     # Initialize Spark Session
@@ -28,7 +28,6 @@ def preprocess_data(input_directory, output_directory):
         .otherwise("Unknown")
     ).withColumn(
         "date",
-        # chaneg the date format to 'yyyy-MM-dd', the original format is like '2019/1/1'
         when(col("date").contains("/"), date_format(col("date"), "yyyy-MM-dd"))
     )
     
