@@ -37,3 +37,6 @@ def main():
     # Step 4: Publish data to RDB
     logging.info("Step 4: Publishing data to RDB...")
     export_csv_to_rdb(transform_data_directory, db_connection_string)
+    
+if __name__ == "__main__":
+    main()
