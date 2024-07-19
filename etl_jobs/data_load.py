@@ -2,9 +2,10 @@ import requests
 import zipfile
 import pandas as pd
 import os
-from url_config import url_list
+from url_config import get_url_list
 
-def download_and_extract_data(url_list):
+def download_and_extract_data(folder_prefix):
+    url_list = get_url_list(folder_prefix)
     for item in url_list:
         url = item['url']
         folder = item['folder']
