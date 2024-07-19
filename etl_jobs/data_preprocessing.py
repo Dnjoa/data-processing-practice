@@ -1,4 +1,5 @@
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import when, col
 
 def preprocess_data(input_directory, output_directory):
     # Initialize Spark Session
@@ -9,9 +10,21 @@ def preprocess_data(input_directory, output_directory):
 
     # Extract specific columns
     selected_columns_df = df.select("date", "model", "failure")
-
+    
+    # Perform data cleaning and transformation
+    altered_columns_df = selected_columns_df.withColumn(
+        "model",
+        when(col("model").startswith("CT"), "Crucial")
+        .when(col("model").startswith("DELLBOSS"), "Dell BOSS")
+        .when(col("model").startswith("HGST"), "HGST")
+        .when(col("model").startswith("Seagate") | col("model").startswith("ST"), "Seagate")
+        .when(col("model").startswith("TOSHIBA"), "Toshiba")
+        .when(col("model").startswith("WDC"), "Western Digital")
+        .otherwise("Others")
+    )
+    
     # Save the processed DataFrame to a new CSV file in the output directory
-    selected_columns_df.write.option("header", "true").csv(f"{output_directory}/processed_data", mode="overwrite")
+    altered_columns_df.write.option("header", "true").csv(f"{output_directory}/processed_data", mode="overwrite")
 
     # Stop the Spark session
     spark.stop()
