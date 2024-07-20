@@ -1,0 +1,24 @@
+# Ignore all .log files
+*.log
+
+# Ignore node_modules directory in a Node.js project
+node_modules/
+
+# Ignore the .env file containing environment variables
+.env
+
+# Ignore the .DS_Store file on macOS
+.DS_Store
+
+# ignore the .vscode directory
+.vscode/
+
+# Ignore the .idea directory in IntelliJ IDEA
+.idea/
+
+# Ignore the data directory
+data
+
+# Ignore the pycache directories
+etl_jobs/__pycache__/
+etl_jobs/config/__pycache__/
