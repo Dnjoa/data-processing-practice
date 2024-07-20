@@ -6,6 +6,7 @@ node_modules/
 
 # Ignore the .env file containing environment variables
 .env
+myenv/
 
 # Ignore the .DS_Store file on macOS
 .DS_Store
