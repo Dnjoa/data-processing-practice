@@ -1,7 +1,17 @@
+import logging
+import os
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import when, col, date_format
 
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 def preprocess_data(input_directory, output_directory):
+    # Set SPARK_HOME environment variable
+    # os.environ['SPARK_HOME'] = '/myenv/lib/python3.12/site-packages'
+    
+    logging.info(f"Preprocessing data from {input_directory} and saving the results to {output_directory}...")
+    
     # Initialize Spark Session
     spark = SparkSession.builder.appName("Data Preprocessing").getOrCreate()
 
@@ -10,6 +20,7 @@ def preprocess_data(input_directory, output_directory):
 
     # Extract specific columns
     selected_columns_df = df.select("date", "model", "failure")
+    logging.info(f"Selected {len(selected_columns_df.columns)} columns: {selected_columns_df.columns}")
     
     # Perform data cleaning and transformation
     altered_columns_df = selected_columns_df.withColumn(
@@ -30,9 +41,15 @@ def preprocess_data(input_directory, output_directory):
         "date",
         when(col("date").contains("/"), date_format(col("date"), "yyyy-MM-dd"))
     )
+    logging.info("Data cleaning and transformation complete.")
+    
+    # Create the output directory if it does not exist
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
     
     # Save the processed DataFrame to a new CSV file in the output directory
-    altered_columns_df.write.option("header", "true").csv(f"{output_directory}/processed_data", mode="overwrite")
+    altered_columns_df.write.option("header", "true").csv(f"{output_directory}", mode="overwrite")
+    logging.info("Saved the processed data to a new CSV file.")
 
     # Stop the Spark session
     spark.stop()

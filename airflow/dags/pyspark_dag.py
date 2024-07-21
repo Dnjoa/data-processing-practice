@@ -13,18 +13,11 @@ from etl_jobs.data_publish import export_csv_to_rdb, get_db_connection
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# RDB connection info
-user_name = "username"
-password = "password"
-host = "localhost"
-port = "5432"
-database_name = "database_name"
-
 # Define default arguments for your DAG
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2023, 1, 1),
+    'start_date': datetime(2024, 7, 20),
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 1,
@@ -43,9 +36,9 @@ dag = DAG(
 start = DummyOperator(task_id='start', dag=dag)
 
 # Define input and output directories
-raw_data_directory = "data/raw_data"
-preprocess_data_directory = "data/preprocessed_data"
-transform_data_directory = "data/transformed_data"
+raw_data_directory = "../data/raw_data"
+preprocess_data_directory = "../data/preprocessed_data"
+transform_data_directory = "../data/transformed_data"
 db_connection_string = get_db_connection(user_name, password, host, port, database_name)
 
 load_data_task = PythonOperator(
