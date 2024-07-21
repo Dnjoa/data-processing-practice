@@ -17,10 +17,10 @@ database_name = "database_name"
 
 def main():
     # Define input and output directories
-    raw_data_directory = "data/raw_data"
-    preprocess_data_directory = "data/preprocessed_data"
-    transform_data_directory = "data/transformed_data"
-    db_connection_string = get_db_connection(user_name, password, host, port, database_name)
+    raw_data_directory = "../data/raw_data"
+    preprocess_data_directory = "../data/preprocessed_data"
+    transform_data_directory = "../data/transformed_data"
+    #db_connection_string = get_db_connection(user_name, password, host, port, database_name)
 
     # Step 1: Download and extract data
     logging.info("Step 1: Downloading and extracting data...")
@@ -35,8 +35,8 @@ def main():
     process_hard_drive_data(preprocess_data_directory, transform_data_directory)
 
     # Step 4: Publish data to RDB
-    logging.info("Step 4: Publishing data to RDB...")
-    export_csv_to_rdb(transform_data_directory, db_connection_string)
+    #logging.info("Step 4: Publishing data to RDB...")
+    #export_csv_to_rdb(transform_data_directory, db_connection_string)
     
 if __name__ == "__main__":
     main()

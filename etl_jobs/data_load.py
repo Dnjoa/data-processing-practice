@@ -17,10 +17,10 @@ def download_and_extract_data(folder_prefix):
         url = item['url']
         folder = item['folder']
         
-        # Create the folder if it doesn't exist, if exist do nothing and return None
+        # Create the folder if it doesn't exist, if exist do nothing and break
         if os.path.exists(folder):
             logging.info(f"Folder {folder} already exists.")
-            return None
+            break
         else:
             os.makedirs(folder)
             logging.info(f"Folder {folder} created.")
