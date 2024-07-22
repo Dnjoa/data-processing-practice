@@ -1,0 +1,26 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: "username"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "database_name"
+    ports:
+      - "5432:5432"
+
+  airflow:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://username:password@postgres:5432/database_name
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./etl_jobs:/opt/airflow/etl_jobs
+      - ./data:/opt/airflow/data
+    ports:
+      - "8080:8080"
+    command: webserver

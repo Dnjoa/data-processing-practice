@@ -15,14 +15,14 @@
 # limitations under the License.
 #
 FROM spark:3.5.1-scala2.12-java17-ubuntu
-
 USER root
-
 RUN set -ex; \
     apt-get update; \
     apt-get install -y python3 python3-pip; \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*;
+
+# Install Python dependencies from requirements.txt
+COPY requirements.txt /tmp/
+RUN pip3 install -r /tmp/requirements.txt
 
 USER spark
-# install requirements
-RUN pip3 install requests pandas pyspark airflow sqlalchemy
